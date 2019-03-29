@@ -88,11 +88,60 @@ where $ \mathbf{x} $ is the state vector of the numbers of vehicles $ \mathbf{x}
 \begin{equation}
 \mathcal{J}=\frac{1}{2} \sum_{k=0}^{\infty}\left(\|\mathbf{x}(k)\|_{\mathbf{Q}}^{2}+\|\Delta \mathbf{g}(k)\|_{\mathbf{R}}^{2}\right)
 \end{equation}
-Here $\mathbf{Q}$ and $\mathbf{R}$ are non-negative definite, diagonal weighting matrices.
+Here $\mathbf{Q}$ and $\mathbf{R}$ are non-negative definite, diagonal weighting matrices. The infinite sum in the equation (4) suggest an infinite time horizon, which is taken in order to obtain a time-invariant feedback law according to the LQ optimisation theory. Intuitively,  the first term in (4), $\|\mathbf{x}(k)\|_{\mathbf{Q}}^{2}$ is responsible for minimisation and balancing of the relative occupancies of the network links. $\mathbf{Q}$ is defined as a diagonal matrix with the diagonal elements equal to the inverses of the storage capacities of the corresponding links. Lastly, matrix $\mathbf{R}$ influences the magnitude of the control reactions. Therefore,  $\mathbf{R}=r\mathbf{I}$, where the choice of r is picked to ensure the best results for a given application network (i.e. simple trial-error procedure).
+
+\subsubsection*{Solution:}
+The aim of this problem is to minimise the cost presented in equation (4) subject to constraints in (3). Having recognised the problem as a discrete-time linear quadratic control problem with and infinite-horizon subject to state equation (3), one can make use of an algebraic Riccati equation to find the solution.\\
+
+We define a symmetric positive definite \textbf{cost-to-go matrix X} evolving backwards in time from $X _ { T } = Q$ according to:
+\begin{equation} 
+X _ { k - 1 } = Q + A ^ { T } X _ { k } A - A ^ { T } X _ { k } B \left( B ^ { T } X _ { k } B + R \right) ^ { - 1 } B ^ { T } X _ { k } A
+\end{equation}
+which is known as the discrete-time dynamic Riccati equation of this problem. The steady-state characterization of X, relevant for the infinite-horizon problem in which T goes to infinity, can be found by iterating the dynamic equation repeatedly until it converges; then X is characterized by removing the time subscripts from the dynamic equation. Resulting in:
+\begin{equation}
+X = Q+ A ^ { T } X A - \left( A ^ { T } X B \right) \left( R + B ^ { T } X B \right) ^ { - 1 } \left( B ^ { T } X A \right)
+\end{equation}
+
+
+Solution to this problem is therefore given by a matrix (called the control) $\mathbf{L}$:
+\begin{equation}
+\mathbf{L} = \left(B ^ { T } X B +R \right) ^ { - 1 } B ^ { T } X A % other notations use K and I m not sure if thats the same as our L :( 
+\end{equation}
+
+Putting it into DP framework that uses backwords induction, the optimal control solution at each time k is equivalent to:
+\begin{equation} 
+\Delta g _ { k } ^ { * } = - \left( B ^ { T } X _ { k } B + R \right) ^ { - 1 } \left( B ^ { T } X _ { k } A \right) x _ { k - 1 }
+\end{equation}
+
+Dropping the k's because of the infinite horizon assumption, the equation transforms to:
+
+\begin{equation} 
+\Delta g  ^ { * } = - \left( B ^ { T } X  B + R \right) ^ { - 1 } \left( B ^ { T } X  A \right) x _ { k - 1 }
+\end{equation}
+
+And can equivalently by written as:
+\begin{equation} 
+\mathbf { g } ( k ) = \mathbf { g } ^ { \mathrm { N } } - \mathbf { L } \mathbf { x } ( k )
+\end{equation}
+where $\Delta \mathbf {g } = \mathbf { g } ( k ) - \mathbf {g } ^ { \mathrm { N } }$.\\
+
+
+The optimasation of this network is not done yet. This is because the LQ problem presented above does not consider control constraints. Those, however, can be imposed after the solution to (9) is computed. Hence, this calls for another optimasation problem that is solved in real-time forfor each junction $j$ so as to specify feasible green times $G _ { j , i }$ that are closest in distance to the non-feasible regulator-based green times $g _ { j , i }$ resulting from (9).
+
+
+\begin{equation} \operatorname { min } { G _ { j , i } } \sum _ { i \in F _ { j } } \left( g _ { j , i } - G _ { j , i } \right) ^ { 2 }\end{equation} 
+subject to
+\begin{equation} 
+\sum _ { i \in F _ { j } } G _ { j , i } + \left| L _ { j } = C \right.
+\end{equation} 
+\begin{equation} 
+G _ { j , i } \in \left[ g _ { j , i , \min } , g _ { j , i , \max } \right] \forall i \in F _ { j }
+\end{equation} 
+
+
 
 
 % ========== Continue adding items as needed
-
 
 \end{document}
 \grid
