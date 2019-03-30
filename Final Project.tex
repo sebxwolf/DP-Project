@@ -34,9 +34,9 @@
 
 % ========== Begin answering questions here
 \section{Motivation}
-Nobody likes traffic. Traffic decreases the productivity of urban spaces, and translates into lower prosperity. Controlling the amount of traffic is therefore a priority goal for urban planners. Yet, most cities face natural or financial constraints in the expansion of transport networks. Consequently,  urban planners are faced with the challenge of optimising traffic flows within the constraints of existing infrastructure, to ensure the most efficient use of it possible.
+Nobody likes traffic. Traffic decreases the productivity of urban spaces, and translates into lower prosperity. Controlling the amount of traffic is therefore a priority goal for urban planners. Yet, most cities face natural or financial constraints in the expansion of transport networks. Consequently,  urban planners are faced with the challenge of optimising traffic flows within the constraints of existing infrastructure, to achieve the most efficient use of it possible.
 
-In this project we study how dynamic programming can be applied to optimise urban traffic flows. Specifically, we study the traffic response urban control (TUC) strategy initially proposed by Diakaki, Papageorgiou, \& McLean (1999) to control traffic light signals.This strategy is based on a linear dynamic equation describing the number of cars present in a traffic link and a quadratic cost function, penalising the number of cars per link. This linear-quadratic system can be solved using infinite horizon dynamic programming. The strategy proceeds in two steps. First, a stationary policy prescribing green times to be used for any given state is computed off-line, using a set of parameters that describe the transport system, such as road capacity, cycle time, saturation flows and turning rates. Second, the dynamic policy responses are calculated in a constrained minimisation problem, which ensures that the solution lies within a specified range of feasible green times, yet as close as possible to the optimal green times calculated in the first step. 
+In this project we study how dynamic programming can be applied to optimise urban traffic flows. Specifically, we study the traffic response urban control (TUC) strategy initially proposed by Diakaki, Papageorgiou, \& McLean (1999) to control traffic light signals.This strategy is based on a linear dynamic equation describing the number of cars present in a set of traffic link and a quadratic cost function, penalising the number of cars per link. This linear-quadratic system can be solved using infinite horizon dynamic programming. The strategy proceeds in two steps. First, a stationary policy prescribing green times to be used for any given state is computed off-line, using a set of parameters that describe the transport system, such as road capacity, cycle time, saturation flows and turning rates. Second, the dynamic policy responses are calculated for dynamically evolvoing state in a constrained minimisation problem, which ensures that the solution lies within a specified range of feasible green times, yet as close as possible to the optimal green times calculated in the first step. 
 
 The solution the strategy provides is not globally optimal, because constraints are applied only after solving for the optimal policy matrix. However, breaking up the problem in these two steps has the practical advantage that the dynamic system can be solved 'off-line' and does not need to be continuously re-evaluated. Minimising deviation from the 'ideal policy' is then trivial and can be decentralised (to a traffic light control), which makes it easier to apply the system in real time and in large networks. The strategy nonetheless yields a solution that is forward-looking in the sense that any policy takes into account the effect of a change in a particular part of the system on the rest of the system (Diakaki, Papageorgiou, \& Aboudolas, 2001).
 
@@ -45,16 +45,7 @@ We simulate this strategy using a simple toy network of three junctions, connect
 We find that the transport network under our specification has 
 
 \section{DP formulation}
-A transport network can be described as a set of links or approaches that connect a set of junctions. With respect to a junction, a link can be inflowing or outflowing, or both. The cycle time describes how long a full cycle of light changes takes at a given junction. Similarly, the total lost time describes how much of the cycle time is lost time, for example because all lights are red to allow pedestrians to pass. The number of stages divides the cycle time into a set of intervals during which a particular combination of links has right of way (r.o.w). The turning rates indicate the direction cars are turning into; they can be assumed to be an empirically established average. Saturation flows describe the capacity of a link; they can be assumed to be the maximum number of cars to pass the link during one control interval. The control interval can be set by the system administrator; it has to be at least as long as the shortest cycle time. The control interval determines how many
-
-
-
-
-
-
-
-
-
+A transport network can be described as a set of links or approaches that connect a set of junctions. With respect to a junction, a link can be inflowing or outflowing, or both. The cycle time describes how long a full cycle of light changes takes at a given junction. Similarly, the total lost time describes how much of the cycle time is lost time, for example because all lights are red to allow pedestrians to pass. The number of stages divides the cycle time into a set of intervals during which a particular combination of links has right of way (r.o.w). The turning rates indicate the direction cars are turning into; they can be assumed to be an empirically established average. Saturation flows describe the capacity of a link; they can be assumed to be the maximum number of cars to pass the link during one control interval. The control interval can be set by the system administrator; it has to be at least as long as the shortest cycle time. The control interval determines how frequently green-light policies can be changed. If this interval is very long, then the system will react poorly to changing traffic situations. Demand and exit flows indicate whether cars enter the system or exit the system. Last but not least, green light times describe the length of time a particular link's signals give r.ow. to a certain stage of the signal cycle. This is the policy variable in this problem. Section 2.1 provides the notation for the above described variables.
 
 \subsection{Variable definitions}
 \begin{tabular}{ l l c }
@@ -68,21 +59,23 @@ Set of stages: & $F_j$ &\\
 Set of stages where link z has r.o.w.: & $v_z$ &\\
 Saturation flow for link z: & $S_z$ &\\
 Turning rates for inflowing link z and outflowing link w: & $t_{z,w}$ &\\
-Green time of stage i at junction j: & $g_{j,i}$ &\\
 Control interval: & $T$ &\\
 Period intervals: & $[k T,(k+1) T]$ &\\
 Demand flow: & $d_z$ &\\
 Exit flow: & $ s_z $ &\\
+Green time of stage i at junction j: & $g_{j,i}$ &\\
+Number of cars in link z: & $x_{z}$ & \\
 \end{tabular}
-
 \subsection{Constraints and indentities}
+Several constraints have to be introduced to define a sensible transport network. Green times have an upper and lower bound, and cycle times are the sum of all green times for all stages plus the lost time. Exit flows for a given link are the product of the number of cars flowing into a link, and the turning rates indicating turns leading out of the network. Inflows to a given link are the sum of outflows from other links directed into the given link. Outflows are assumed to always occur at the maximum rate possible, whenever the respective stage has r.o.w.. If a given cycle includes more than one stage with r.o.w. for a given link, the sum of all green times for a given link are added to obtain the effective green time per cycle, which can in turn be used to calculate the average outflow from a given link per cycle. A steady state situation for a particular link is obtained when the outflows from the network equal the inflows plus the additional demand arising within the link (this can for example be parked cars entering the link, rather than cars entering from an inflowing link).
+
 \begin{tabular}{ l l }
 Green light constraints: & $g_{j,i} \in \left[g_{j, i, \min }, g_{j, i, \max }\right]$ \\
-Cycle time constraint: & $\sum_{i \in F_{j}} g_{j, i}+L_{j}=C$ \\
+Cycle time constraint: & $\sum_{i \in F_{j}} g_{j, i}+L_{j}=C_j$ \\
 Exit flow constraint: & $s_{z}(k)=t_{z, 0} q_{z}(k)$ \\
 Inflow to link z: & $q_{z}(k)= \sum_{w \in I_{M}} t_{w, z} u_{w}(k)$ \\
 Outflow from link z: & $u_z = \left\{ \begin{array} { l l } { S_z } & { \text { if  has r.o.w}  } \\ { 0 } & { \text { otherwise} } \end{array} \right.$ \\
-(Assuming space available in downstream link and $x_z>S_z$\\
+(Assuming space available in downstream link and $x_z>S_z$)\\
 Average value for outflow from z: & $u_{z}(k)=S_{z} G_{z}(k) / C$\\
 Effective green time: & $G_{z}(k)=\sum_{i \in v} g_{j, i}(k)$ \\
 Steady state demand: & $\left(1-t_{z, 0}\right) q_{z}^{N}+d_{z}^{N}-u_{z}^{N}=0$ \\
@@ -92,6 +85,7 @@ link queues under non-saturating constant nominal demand) \\
 
 
 \subsection{DP equations}
+The number of cars in a given link z at the end of any given period k is the sum of the number of cars that remained in the link from the previous period, plus the cars that enter minus the cars that exit during the period. This yields the following dynamic equation:
 \subsubsection*{Dynamics:}
 \begin{equation}
 x_{z}(k+1)=x_{z}(k)+T\left[q_{z}(k)-s_{z}(k)+d_{z}(k)-u_{z}(k)\right]
@@ -104,12 +98,13 @@ In vector notation:
 \begin{equation}
 \mathbf{x}(k+1)=\mathbf{A} \mathbf{x}(k)+\mathbf{B} \Delta \mathbf{g}(k)+\mathbf{T} \Delta \mathbf{d}(k)
 \end{equation}
-where $ \mathbf{x} $ is the state vector of the numbers of vehicles $ \mathbf{x}_z$ within links $z \in Z$ and $\Delta g_{j, i}=g_{j, i}-g_{j, i}^{\mathrm{N}}$ is the vector of deviations from the steady-state green times and $\Delta d_{z}=d_{z}-d_{z}^{\mathrm{N}}$ is the deviation from the steady-state demand flows. $\mathbf{A}= \mathbf{I}$, $\mathbf{B}$ and  $\mathbf{T}$ are the state, input, and disturbance matrices, respectively. The input matrix B reflects the specific network topology, fixed staging, cycle, saturation flows, and turning rates. For this problem we assume demand is in its steady-state: $\Delta \mathrm{d}(k)=0$.
+where $ \mathbf{x} $ is the state vector of the numbers of vehicles $ \mathbf{x}_z$ within links $z \in Z$ and $\Delta g_{j, i}=g_{j, i}-g_{j, i}^{\mathrm{N}}$ is a vector of deviations from steady-state green times and $\Delta d_{z}=d_{z}-d_{z}^{\mathrm{N}}$ is the deviation from the steady-state demand flows. $\mathbf{A}= \mathbf{I}$, $\mathbf{B}$ and  $\mathbf{T}$ are the state, input, and disturbance matrices, respectively. The input matrix B reflects the specific network topology, fixed staging, cycle, saturation flows, and turning rates. For this problem we assume demand is in its steady-state: $\Delta \mathrm{d}(k)=0$.
 \subsubsection*{Cost:}
+To achieve the goal of minimising traffic accumulation in all links in the network, the number of cars in any given link is penalised quadratically. This introduces an automatic trade-off between links, as reducing the number of cars in one link leads to a higher number of cars in another link. This trade-off ensures that traffic is evenly distributed and no bottlenecks are created. Furthermore, deviations from the level of steady state green times are penalized quadratically. This ensures the system returns to a sensible equilibrium steady-state when green times are changed in a given period.
 \begin{equation}
 \mathcal{J}=\frac{1}{2} \sum_{k=0}^{\infty}\left(\|\mathbf{x}(k)\|_{\mathbf{Q}}^{2}+\|\Delta \mathbf{g}(k)\|_{\mathbf{R}}^{2}\right)
 \end{equation}
-Here $\mathbf{Q}$ and $\mathbf{R}$ are non-negative definite, diagonal weighting matrices. The infinite sum in the equation (4) suggest an infinite time horizon, which is taken in order to obtain a time-invariant feedback law according to the LQ optimisation theory. Intuitively,  the first term in (4), $\|\mathbf{x}(k)\|_{\mathbf{Q}}^{2}$ is responsible for minimisation and balancing of the relative occupancies of the network links. $\mathbf{Q}$ is defined as a diagonal matrix with the diagonal elements equal to the inverses of the storage capacities of the corresponding links. Lastly, matrix $\mathbf{R}$ influences the magnitude of the control reactions. Therefore,  $\mathbf{R}=r\mathbf{I}$, where the choice of r is picked to ensure the best results for a given application network (i.e. simple trial-error procedure).
+$\mathbf{Q}$ and $\mathbf{R}$ in the cost equation are non-negative definite, diagonal weighting matrices. These can be modified in case any particular link carries additional significance. The infinite sum in the cost equation (4) suggest an infinite time horizon, which is used in order to obtain a time-invariant feedback law according to LQ optimisation theory. Intuitively, the first term in (4), $\|\mathbf{x}(k)\|_{\mathbf{Q}}^{2}$ is responsible for minimisation and balancing of the relative occupancies of the network links. $\mathbf{Q}$ is defined as a diagonal matrix with the diagonal elements equal to the inverses of the storage capacities of the corresponding links. Lastly, matrix $\mathbf{R}$ influences the magnitude of the control reactions. Therefore,  $\mathbf{R}=r\mathbf{I}$, where the choice of r is picked to ensure the best results for a given application network (i.e. simple trial-error procedure).
 
 \subsubsection*{Solution:}
 The aim of this problem is to minimise the cost presented in equation (4) subject to constraints in (3). Having recognised the problem as a discrete-time linear quadratic control problem with and infinite-horizon subject to state equation (3), one can make use of an algebraic Riccati equation to find the solution.\\
@@ -165,76 +160,56 @@ To understand the workings of the TUC strategy, we apply it to a simple toy netw
 \begin{figure}
     \caption{Network Graph}
       \centering
-	\includegraphics[width=15cm]{t_AB=0.2 S_out=40 t_out =0.3}
-\end{figure}
-
-\begin{figure}
-    \caption{Network Graph}
-      \centering
 	\includegraphics[width=15cm]{network-graph}
 \end{figure}
 
 \begin{figure}
     \caption{Network Graph}
       \centering
-	\includegraphics[width=15cm]{network-graph}
+	\includegraphics[width=15cm]{sim1}
 \end{figure}
 
 \begin{figure}
     \caption{Network Graph}
       \centering
-	\includegraphics[width=15cm]{network-graph}
+	\includegraphics[width=15cm]{sim2}
 \end{figure}
 
 \begin{figure}
     \caption{Network Graph}
       \centering
-	\includegraphics[width=15cm]{network-graph}
+	\includegraphics[width=15cm]{sim3}
 \end{figure}
 
 \begin{figure}
     \caption{Network Graph}
       \centering
-	\includegraphics[width=15cm]{network-graph}
+	\includegraphics[width=15cm]{sim4}
 \end{figure}
 
 \begin{figure}
     \caption{Network Graph}
       \centering
-	\includegraphics[width=15cm]{network-graph}
+	\includegraphics[width=15cm]{sim5}
 \end{figure}
 
 \begin{figure}
     \caption{Network Graph}
       \centering
-	\includegraphics[width=15cm]{network-graph}
+	\includegraphics[width=15cm]{sim6}
 \end{figure}
 
 \begin{figure}
     \caption{Network Graph}
       \centering
-	\includegraphics[width=15cm]{network-graph}
+	\includegraphics[width=15cm]{sim7}
 \end{figure}
 
 \begin{figure}
     \caption{Network Graph}
       \centering
-	\includegraphics[width=15cm]{network-graph}
+	\includegraphics[width=15cm]{sim8}
 \end{figure}
-
-\begin{figure}
-    \caption{Network Graph}
-      \centering
-	\includegraphics[width=15cm]{network-graph}
-\end{figure}
-
-\begin{figure}
-    \caption{Network Graph}
-      \centering
-	\includegraphics[width=15cm]{network-graph}
-\end{figure}
-
-
 
 
 \begin{thebibliography}{9}
