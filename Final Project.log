@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.3.13)  30 MAR 2019 17:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.3.13)  30 MAR 2019 17:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -231,44 +231,44 @@ Package pdftex.def Info: network-graph.jpg  used on input line 162.
 File: sim1.png Graphic file (type png)
 <use sim1.png>
 Package pdftex.def Info: sim1.png  used on input line 168.
-(pdftex.def)             Requested size: 426.79134pt x 203.03555pt.
+(pdftex.def)             Requested size: 341.43306pt x 162.42844pt.
 <sim2.png, id=31, 620.3175pt x 295.1025pt>
 File: sim2.png Graphic file (type png)
 <use sim2.png>
 Package pdftex.def Info: sim2.png  used on input line 174.
-(pdftex.def)             Requested size: 426.79134pt x 203.03555pt.
+(pdftex.def)             Requested size: 341.43306pt x 162.42844pt.
 <sim3.png, id=32, 620.3175pt x 295.1025pt>
 File: sim3.png Graphic file (type png)
 <use sim3.png>
 Package pdftex.def Info: sim3.png  used on input line 180.
-(pdftex.def)             Requested size: 426.79134pt x 203.03555pt.
+(pdftex.def)             Requested size: 341.43306pt x 162.42844pt.
 <sim4.png, id=33, 620.3175pt x 295.1025pt>
 File: sim4.png Graphic file (type png)
 <use sim4.png>
 Package pdftex.def Info: sim4.png  used on input line 186.
-(pdftex.def)             Requested size: 426.79134pt x 203.03555pt.
+(pdftex.def)             Requested size: 341.43306pt x 162.42844pt.
 <sim5.png, id=34, 620.3175pt x 295.1025pt>
 File: sim5.png Graphic file (type png)
 <use sim5.png>
 Package pdftex.def Info: sim5.png  used on input line 192.
-(pdftex.def)             Requested size: 426.79134pt x 203.03555pt.
+(pdftex.def)             Requested size: 341.43306pt x 162.42844pt.
 <sim6.png, id=35, 620.3175pt x 295.1025pt>
 File: sim6.png Graphic file (type png)
 <use sim6.png>
 Package pdftex.def Info: sim6.png  used on input line 198.
-(pdftex.def)             Requested size: 426.79134pt x 203.03555pt.
+(pdftex.def)             Requested size: 341.43306pt x 162.42844pt.
 <sim7.png, id=36, 620.3175pt x 295.1025pt>
 File: sim7.png Graphic file (type png)
 <use sim7.png>
 Package pdftex.def Info: sim7.png  used on input line 204.
-(pdftex.def)             Requested size: 426.79134pt x 203.03555pt.
+(pdftex.def)             Requested size: 341.43306pt x 162.42844pt.
 <sim8.png, id=37, 620.3175pt x 295.1025pt>
 File: sim8.png Graphic file (type png)
 <use sim8.png>
 Package pdftex.def Info: sim8.png  used on input line 210.
-(pdftex.def)             Requested size: 426.79134pt x 203.03555pt.
- [5 <./network-graph.jpg> <./sim1.png>] [6 <./sim2.png> <./sim3.png>]
-[7 <./sim4.png> <./sim5.png>] [8 <./sim6.png> <./sim7.png>] [9 <./sim8.png>]
+(pdftex.def)             Requested size: 341.43306pt x 162.42844pt.
+ [5 <./network-graph.jpg> <./sim1.png>] [6 <./sim2.png> <./sim3.png> <./sim4.pn
+g>] [7 <./sim5.png> <./sim6.png> <./sim7.png>] [8 <./sim8.png>]
 (./Final Project.aux) ) 
 Here is how much of TeX's memory you used:
  2406 strings out of 492649
@@ -293,10 +293,10 @@ pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.p
 fb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 ></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
 
-Output written on "Final Project.pdf" (9 pages, 449004 bytes).
+Output written on "Final Project.pdf" (8 pages, 448776 bytes).
 PDF statistics:
- 108 PDF objects out of 1000 (max. 8388607)
- 65 compressed objects within 1 object stream
+ 105 PDF objects out of 1000 (max. 8388607)
+ 63 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  46 words of extra memory for PDF output out of 10000 (max. 10000000)
 
