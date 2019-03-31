@@ -164,6 +164,7 @@ G _ { j , i } \in \left[ g _ { j , i , \min } , g _ { j , i , \max } \right] \fo
 \section{Simulations}
 To understand the workings of the TUC strategy, we apply it to a simple toy network of three junctions (O,M,N - depicted in figure 1). The network further consists of two connecting links (A,B) and 5 traffic lights that will be used to control the traffic flow. Two links flow into the network at junction M (w1, w2) and one link flows into the network at junction B (w3). Traffic in this network is one-way, there is no traffic from O to M. All traffic flows considered are marked by red arrows, and traffic lights are marked by a black barrier in the road. 
 
+
 Find below the dynamic equations of the toy network explaine above and that will help to understand below results.
 
 \begin{equation}
@@ -205,6 +206,7 @@ On the right we see the green times of the different signals evolving over the p
 
 \subsubsection{Turning rate AB}
 
+
 Increasing the turning rate from A to B is equivalent to increasing the percentage of cars that flow from link A to link B, rather than turning right and exiting the network. The evolution of the system at turning rates of 20 and 30\% is shown in figures 3 and 4.
 
 Note that the lower the turning rate, the lower the number of cars in link A waiting to pass to B. In the case of a low turning rate, emptying link A with longer green times for $G_{N1}$ therefore is 'easier' and begins sooner after the perturbation. At very high turning rates link A always remains oversaturated. % add why
@@ -235,6 +237,7 @@ We can clearly see that when the saturation coefficient goes beyond 50, both lin
 \end{figure}
 
 \begin{figure}[h!]
+
     \caption{High saturation flow}
       \centering
 	\includegraphics[width=13cm]{sim7}
