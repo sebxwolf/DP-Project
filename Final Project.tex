@@ -164,6 +164,18 @@ G _ { j , i } \in \left[ g _ { j , i , \min } , g _ { j , i , \max } \right] \fo
 \section{Simulations}
 To understand the workings of the TUC strategy, we apply it to a simple toy network of three junctions (O,M,N - depicted in figure 1). The network further consists of two connecting links (A,B) and 5 traffic lights that will be used to control the traffic flow. Two links flow into the network at junction M (w1, w2) and one link flows into the network at junction B (w3). Traffic in this network is one-way, there is no traffic from O to M. All traffic flows considered are marked by red arrows, and traffic lights are marked by a black barrier in the road. 
 
+
+Find below the dynamic equations of the toy network explaine above and that will help to understand below results.
+
+\begin{equation}
+x_{A}(k+1)=x_{A}(k)+T\left[\left(1-t_{A,0}\right)\bigg[\frac{t_{w_{1},A}S_{w_{1}}\Delta g_{M,1}(k)}{C}+\frac{t_{w_{2},A}S_{w_{2}}\Delta g_{M,2}(k)}{C}\bigg]+\Delta d_{A}(k)-\frac{S_{A}\Delta g_{N,1}(k)}{C}\right]
+\end{equation}
+
+\begin{equation}
+x_{B}(k+1)=x_{B}(k)+T\left[\left(1-t_{B,0}\right)\bigg[\frac{t_{A,B}S_{A}\Delta g_{N,1}(k)}{C}+\frac{t_{w_{3},B}S_{w_{3}}\Delta g_{N,2}(k)}{C}\bigg]+\Delta d_{B}(k)-\frac{S_{B}\Delta g_{0,1}(k)}{C}\right]
+\end{equation}
+
+
 The toy network we study is the simplest possible network to sensibly apply the TUC strategy. The strategy requires at least two connecting links to show its dynamics, as it can then balance traffic across the two links. Of course the advantages of the TUC strategy mostly lie in the regulation of large networks with saturated traffic flows. Given the simplicity of the toy network we study, other solutions to achieve optimal control can be used to find a true global optimum. However, in this project we aim to understand the mechanics of the TUC strategy rather than test its performance, which is why we choose this rather minimalistic setup. We refer the interested reader to Diakaki, Papageorgiou, \& Aboudolas (2001) for an evaluation of the strategy's performance.
 
 In this section we will assess how the network reacts to a perturbation (increase in the demand / number of cars that join the two links of the network in a given control period), and how this reaction differs depending on the parameterisation of the network. The two parameters we study are:
@@ -193,6 +205,7 @@ On the right we see the green times of the different signals evolving over the p
 \end{figure}
 
 \subsubsection{Turning rate AB}
+
 
 Increasing the turning rate from A to B is equivalent to increasing the percentage of cars that flow from link A to link B, rather than turning right and exiting the network. The evolution of the system at turning rates of 20 and 30\% is shown in figures 3 and 4.
 
@@ -224,6 +237,7 @@ We can clearly see that when the saturation coefficient goes beyond 50, both lin
 \end{figure}
 
 \begin{figure}[h!]
+
     \caption{High saturation flow}
       \centering
 	\includegraphics[width=13cm]{sim7}
