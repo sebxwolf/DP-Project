@@ -42,7 +42,8 @@ The solution the strategy provides is not globally optimal, because constraints 
 
 We simulate this strategy using a simple toy network of three junctions, connected by two main links, one of which is an 'upstream' link and one a 'downstream' link. The traffic flows only in one direction, from the upstream to the downstream link. We study how the strategy sets green times at the three junctions, and how it balances the benefit of allowing long green times to empty the upstream link with the resulting cost of potential downstream accumulation of cars. To gain a full understanding of the system dynamics, we vary parameters describing the infrastructure situation, such as road capacity, cycle time, saturation flow rates and turning rates and study the effect on the optimal green times chosen by the strategy.
 
-We find that the transport network under our specification has 
+
+We find that the transport network under our specification has [EXPAND with results, short preview of conclusion]
 
 \section{DP formulation}
 A transport network can be described as a set of links or approaches that connect a set of junctions. With respect to a junction, a link can be inflowing or outflowing, or both. The cycle time describes how long a full cycle of light changes takes at a given junction. Similarly, the total lost time describes how much of the cycle time is lost time, for example because all lights are red to allow pedestrians to pass. The number of stages divides the cycle time into a set of intervals during which a particular combination of links has right of way (r.o.w). The turning rates indicate the direction cars are turning into; they can be assumed to be an empirically established average. Saturation flows describe the capacity of a link; they can be assumed to be the maximum number of cars to pass the link during one control interval. The control interval can be set by the system administrator; it has to be at least as long as the shortest cycle time. The control interval determines how frequently green-light policies can be changed. If this interval is very long, then the system will react poorly to changing traffic situations. Demand and exit flows indicate whether cars enter the system or exit the system. Last but not least, green light times describe the length of time a particular link's signals give r.ow. to a certain stage of the signal cycle. This is the policy variable in this problem. Section 2.1 provides the notation for the above described variables.
@@ -98,34 +99,38 @@ In vector notation:
 \begin{equation}
 \mathbf{x}(k+1)=\mathbf{A} \mathbf{x}(k)+\mathbf{B} \Delta \mathbf{g}(k)+\mathbf{T} \Delta \mathbf{d}(k)
 \end{equation}
-where $ \mathbf{x} $ is the state vector of the numbers of vehicles $ \mathbf{x}_z$ within links $z \in Z$ and $\Delta g_{j, i}=g_{j, i}-g_{j, i}^{\mathrm{N}}$ is a vector of deviations from steady-state green times and $\Delta d_{z}=d_{z}-d_{z}^{\mathrm{N}}$ is the deviation from the steady-state demand flows. $\mathbf{A}= \mathbf{I}$, $\mathbf{B}$ and  $\mathbf{T}$ are the state, input, and disturbance matrices, respectively. The input matrix B reflects the specific network topology, fixed staging, cycle, saturation flows, and turning rates. For this problem we assume demand is in its steady-state: $\Delta \mathrm{d}(k)=0$.
+
+where $ \mathbf{x} $ is the state vector of the numbers of vehicles $ \mathbf{x}_z$ within links $z \in Z$ and $\Delta g_{j, i}=g_{j, i}-g_{j, i}^{\mathrm{N}}$ is a vector of deviations from steady-state green times and $\Delta d_{z}=d_{z}-d_{z}^{\mathrm{N}}$ is the deviation from the steady-state demand flows. $\mathbf{A}= \mathbf{I}$, $\mathbf{B}$ and  $\mathbf{T}$ are the state, input, and disturbance matrices, respectively. The input matrix B reflects the specific network topology, fixed staging, cycle, saturation flows, and turning rates. To solve the system we assume demand is in its steady-state: $\Delta \mathrm{d}(k)=0$.
+
 \subsubsection*{Cost:}
 To achieve the goal of minimising traffic accumulation in all links in the network, the number of cars in any given link is penalised quadratically. This introduces an automatic trade-off between links, as reducing the number of cars in one link leads to a higher number of cars in another link. This trade-off ensures that traffic is evenly distributed and no bottlenecks are created. Furthermore, deviations from the level of steady state green times are penalized quadratically. This ensures the system returns to a sensible equilibrium steady-state when green times are changed in a given period.
 \begin{equation}
 \mathcal{J}=\frac{1}{2} \sum_{k=0}^{\infty}\left(\|\mathbf{x}(k)\|_{\mathbf{Q}}^{2}+\|\Delta \mathbf{g}(k)\|_{\mathbf{R}}^{2}\right)
 \end{equation}
-$\mathbf{Q}$ and $\mathbf{R}$ in the cost equation are non-negative definite, diagonal weighting matrices. These can be modified in case any particular link carries additional significance. The infinite sum in the cost equation (4) suggest an infinite time horizon, which is used in order to obtain a time-invariant feedback law according to LQ optimisation theory. Intuitively, the first term in (4), $\|\mathbf{x}(k)\|_{\mathbf{Q}}^{2}$ is responsible for minimisation and balancing of the relative occupancies of the network links. $\mathbf{Q}$ is defined as a diagonal matrix with the diagonal elements equal to the inverses of the storage capacities of the corresponding links. Lastly, matrix $\mathbf{R}$ influences the magnitude of the control reactions. Therefore,  $\mathbf{R}=r\mathbf{I}$, where the choice of r is picked to ensure the best results for a given application network (i.e. simple trial-error procedure).
 
-\subsubsection*{Solution:}
-The aim of this problem is to minimise the cost presented in equation (4) subject to constraints in (3). Having recognised the problem as a discrete-time linear quadratic control problem with and infinite-horizon subject to state equation (3), one can make use of an algebraic Riccati equation to find the solution.\\
+$\mathbf{Q}$ and $\mathbf{R}$ in the cost equation are non-negative definite, diagonal weighting matrices. Since the first term in (4), $\|\mathbf{x}(k)\|_{\mathbf{Q}}^{2}$ is responsible for minimisation and balancing of the relative occupancies of the network links, $\mathbf{Q}$ has its diagonal elements equal to the inverses of the storage capacities of the corresponding links. $\mathbf{R}$ influences the magnitude of the control reactions.  $\mathbf{R}=r\mathbf{I}$, where the choice of r is picked to ensure the best results for a given application network (i.e. simple trial-error procedure). Both matrices can be modified in case any particular link carries increased significance. The infinite sum in the cost equation (4) suggest an infinite time horizon, which is used in order to obtain a time-invariant feedback law according to LQ optimisation theory. 
 
-We define a symmetric positive definite \textbf{cost-to-go matrix X} evolving backwards in time from $X _ { T } = Q$ according to:
+\subsubsection*{Solution of the DP Problem:}
+To minimise the cost presented in equation (4) subject to the dynamics in (3), we follow Bertsekas (2005, Vol 2., pp.140). The problem is a discrete-time linear quadratic control problem with infinite-horizon, which is solved via the algebraic Riccati equation. 
+
+We define a symmetric positive definite \textbf{cost-to-go matrix K} evolving backwards in time from $K _ { N } = Q$ according to:
 \begin{equation} 
-X _ { k - 1 } = Q + A ^ { T } X _ { k } A - A ^ { T } X _ { k } B \left( B ^ { T } X _ { k } B + R \right) ^ { - 1 } B ^ { T } X _ { k } A
+K _ { k - 1 } = Q + A ^ { T } K_ { k } A - A ^ { T } K _ { k } B \left( B ^ { T } K_ { k } B + R \right) ^ { - 1 } B ^ { T } K _ { k } A
 \end{equation}
-which is known as the discrete-time dynamic Riccati equation of this problem. The steady-state characterization of X, relevant for the infinite-horizon problem in which T goes to infinity, can be found by iterating the dynamic equation repeatedly until it converges; then X is characterized by removing the time subscripts from the dynamic equation. Resulting in:
+This is the discrete-time dynamic Riccati equation of this problem. The steady-state characterization of X, relevant for the infinite-horizon problem in which T goes to infinity, can be found by iterating the dynamic equation repeatedly until it converges; then X is characterized by removing the time subscripts from the dynamic equation. Resulting in the algebraic Riccati equation of this problem:
 \begin{equation}
-X = Q+ A ^ { T } X A - \left( A ^ { T } X B \right) \left( R + B ^ { T } X B \right) ^ { - 1 } \left( B ^ { T } X A \right)
+K = Q+ A ^ { T } K A - \left( A ^ { T } K B \right) \left( R + B ^ { T } K B \right) ^ { - 1 } \left( B ^ { T } K A \right)
 \end{equation}
 
-
-Solution to this problem is therefore given by a matrix (called the control) $\mathbf{L}$:
+The solution to this problem yields a stationary policy given by the control matrix $\mathbf{L}$:
 \begin{equation}
-\mathbf{L} = \left(B ^ { T } X B +R \right) ^ { - 1 } B ^ { T } X A % other notations use K and I m not sure if thats the same as our L :( 
+\mathbf{L} = \left(B ^ { T } K B +R \right) ^ { - 1 } B ^ { T } K A % other notations use K and I m not sure if thats the same as our L :( 
+
 \end{equation}
 
 Putting it into DP framework that uses backwords induction, the optimal control solution at each time k is equivalent to:
 \begin{equation} 
+
 \Delta g _ { k } ^ { * } = - \left( B ^ { T } X _ { k } B + R \right) ^ { - 1 } \left( B ^ { T } X _ { k } A \right) x _ { k - 1 }
 \end{equation}
 
@@ -140,7 +145,6 @@ And can equivalently by written as:
 \mathbf { g } ( k ) = \mathbf { g } ^ { \mathrm { N } } - \mathbf { L } \mathbf { x } ( k )
 \end{equation}
 where $\Delta \mathbf {g } = \mathbf { g } ( k ) - \mathbf {g } ^ { \mathrm { N } }$.\\
-
 
 The optimasation of this network is not done yet. This is because the LQ problem presented above does not consider control constraints. Those, however, can be imposed after the solution to (9) is computed. Hence, this calls for another optimasation problem that is solved in real-time forfor each junction $j$ so as to specify feasible green times $G _ { j , i }$ that are closest in distance to the non-feasible regulator-based green times $g _ { j , i }$ resulting from (9).
 
@@ -275,6 +279,106 @@ SOMETHING ABOUT PERFORMANCE BETTER WITH VARYING TIMES?
 Christina Diakaki, Markos Papageorgiou, and Kostas Aboudolas.
 \textit{A multivariable regulator approach to traffic-responsive network-wide signal control.}
 Control Engineering Practice 10, 183-195, 2001.
+=======
+\Delta g _ { k } ^ { * } = - \left( B ^ { T } K _ { k } B + R \right) ^ { - 1 } \left( B ^ { T } K_ { k } A \right) x _ { k - 1 }
+\end{equation}
+
+Dropping the k's because of the infinite horizon assumption, the equation transforms to:
+
+\begin{equation} 
+\Delta g  ^ { * } = - \left( B ^ { T } K  B + R \right) ^ { - 1 } \left( B ^ { T } K  A \right) x _ { k - 1 }
+\end{equation}
+
+And can equivalently be written as:
+\begin{equation} 
+\mathbf { g } ( k ) = \mathbf { g } ^ { \mathrm { N } } - \mathbf { L } \mathbf { x } ( k )
+\end{equation}
+where $\Delta \mathbf {g } = \mathbf { g } ( k ) - \mathbf {g } ^ { \mathrm { N } }$.\\
+
+\subsubsection*{TUC strategy green times:}
+The above derived green times may not lie within the feasible range defined in section 2.2, because the LQ problem presented above does not consider control constraints. Those, however, can be imposed after the solution to (10) is computed. Hence, this calls for another optimisation problem that is solved in real-time for each junction $j$ so as to specify feasible green times $G _ { j , i }$ that are closest in distance to the non-feasible regulator-based green times $g _ { j , i }$ resulting from (10).
+
+
+\begin{equation} \operatorname { min } { G _ { j , i } } \sum _ { i \in F _ { j } } \left( g _ { j , i } - G _ { j , i } \right) ^ { 2 }\end{equation} 
+subject to
+\begin{equation} 
+\sum _ { i \in F _ { j } } G _ { j , i } + \left| L _ { j } = C \right.
+\end{equation} 
+\begin{equation} 
+G _ { j , i } \in \left[ g _ { j , i , \min } , g _ { j , i , \max } \right] \forall i \in F _ { j }
+\end{equation} 
+
+\section{Simulations}
+To understand the workings of the TUC strategy, we apply it to a simple toy network of three junctions (depicted in Figure 1). 
+
+\begin{figure}[hbt!]
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=15cm]{network-graph}
+\end{figure}
+
+\begin{figure}[hbt!]
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=12cm]{sim1}
+\end{figure}
+
+\begin{figure}[hbt!]
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=12cm]{sim2}
+\end{figure}
+
+\begin{figure}[hbt!]
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=12cm]{sim3}
+\end{figure}
+
+\begin{figure}[hbt!]
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=12cm]{sim4}
+\end{figure}
+
+\begin{figure}[hbt!]
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=12cm]{sim5}
+\end{figure}
+
+\begin{figure}[hbt!]
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=12cm]{sim6}
+\end{figure}
+
+\begin{figure}[hbt!]
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=12cm]{sim7}
+\end{figure}
+
+\begin{figure}[hbt!]
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=12cm]{sim8}
+\end{figure}
+
+\section{Conclusion}
+
+\begin{thebibliography}{9}
+\bibitem{bertsekas} 
+Bertsekas, D. (2005). Dynamic Programming and Optimal Control (3rd ed.). Athena Scientific.
+
+\bibitem{diakaki1} 
+Diakaki, C., Papageorgiou, M. \& Aboudolas, K. (2001).
+A multivariable regulator approach to traffic-responsive network-wide signal control.
+\textit{Control Engineering Practice} 10, 183-195.
+
+\bibitem{diakaki2} 
+Diakaki, C., Papageorgiou, M., \& McLean, T. (1997). Simulation studies of integrated corridor control in Glasgow. 
+\textit{Transportation Research C}, 5, 211-224.
 
 \end{thebibliography}
 

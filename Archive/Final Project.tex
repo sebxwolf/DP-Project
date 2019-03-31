@@ -7,7 +7,7 @@
 \usepackage{amsmath,amssymb}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
-\setlength\parindent{0pt}
+\setlength\parindent{15pt}
 
 % for images
 \usepackage{graphicx}
@@ -34,6 +34,11 @@
 
 % ========== Begin answering questions here
 \section{Introduction}
+Nobody likes traffic. Traffic decreases the productivity of urban spaces, and translates into lower prosperity. Controlling the amount of traffic is therefore a priority goal for urban planners. Yet, most cities face natural or financial constraints in the expansion of transport networks. Consequently,  urban planners are faced with the challenge of optimising traffic flows within the constraints of existing infrastructure, to ensure the most efficient use of it possible.
+
+In this project we study how dynamic programming can be applied to optimise traffic flows. Specifically, we employ the traffic response urban control (TUC) strategy initially proposed by Diakaki, Papageorgiou, & McLean (1999). 
+
+
 \section{DP formulation}
 \subsection{Variable definitions}
 \begin{tabular}{ l l c }
@@ -139,6 +144,11 @@ G _ { j , i } \in \left[ g _ { j , i , \min } , g _ { j , i , \max } \right] \fo
 \end{equation} 
 
 
+\begin{figure}
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=15cm]{network-graph}
+\end{figure}
 
 
 % ========== Continue adding items as needed
