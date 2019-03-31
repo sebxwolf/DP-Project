@@ -42,9 +42,6 @@ The solution the strategy provides is not globally optimal, because constraints 
 
 We simulate this strategy using a simple toy network of three junctions, connected by two main links, one of which is an 'upstream' link and one a 'downstream' link. The traffic flows only in one direction, from the upstream to the downstream link. We study how the strategy sets green times at the three junctions, and how it balances the benefit of allowing long green times to empty the upstream link with the resulting cost of potential downstream accumulation of cars. To gain a full understanding of the system dynamics, we vary parameters describing the infrastructure situation, such as road capacity, cycle time, saturation flow rates and turning rates and study the effect on the optimal green times chosen by the strategy.
 
-
-We find that the transport network under our specification has [EXPAND with results, short preview of conclusion]
-
 \section{DP formulation}
 A transport network can be described as a set of links or approaches that connect a set of junctions. With respect to a junction, a link can be inflowing or outflowing, or both. The cycle time describes how long a full cycle of light changes takes at a given junction. Similarly, the total lost time describes how much of the cycle time is lost time, for example because all lights are red to allow pedestrians to pass. The number of stages divides the cycle time into a set of intervals during which a particular combination of links has right of way (r.o.w). The turning rates indicate the direction cars are turning into; they can be assumed to be an empirically established average. Saturation flows describe the capacity of a link; they can be assumed to be the maximum number of cars to pass the link during one control interval. The control interval can be set by the system administrator; it has to be at least as long as the shortest cycle time. The control interval determines how frequently green-light policies can be changed. If this interval is very long, then the system will react poorly to changing traffic situations. Demand and exit flows indicate whether cars enter the system or exit the system. Last but not least, green light times describe the length of time a particular link's signals give r.ow. to a certain stage of the signal cycle. This is the policy variable in this problem. Section 2.1 provides the notation for the above described variables.
 
@@ -164,8 +161,7 @@ G _ { j , i } \in \left[ g _ { j , i , \min } , g _ { j , i , \max } \right] \fo
 \section{Simulations}
 To understand the workings of the TUC strategy, we apply it to a simple toy network of three junctions (O,M,N - depicted in figure 1). The network further consists of two connecting links (A,B) and 5 traffic lights that will be used to control the traffic flow. Two links flow into the network at junction M (w1, w2) and one link flows into the network at junction B (w3). Traffic in this network is one-way, there is no traffic from O to M. All traffic flows considered are marked by red arrows, and traffic lights are marked by a black barrier in the road. 
 
-
-Find below the dynamic equations of the toy network explaine above and that will help to understand below results.
+The dynamic equations of the toy network are:
 
 \begin{equation}
 x_{A}(k+1)=x_{A}(k)+T\left[\left(1-t_{A,0}\right)\bigg[\frac{t_{w_{1},A}S_{w_{1}}\Delta g_{M,1}(k)}{C}+\frac{t_{w_{2},A}S_{w_{2}}\Delta g_{M,2}(k)}{C}\bigg]+\Delta d_{A}(k)-\frac{S_{A}\Delta g_{N,1}(k)}{C}\right]
@@ -273,9 +269,9 @@ Figure 9 shows the differences in number of cars for each period for both polici
 	\includegraphics[width=12cm]{sim9}
 \end{figure}
 
-\section{Conclusions}
+\section{Conclusion}
 
-We conclude that the control matrix L derived in the TUC strategy provides a control law with a robust gating feature to protect down-stream links from oversaturation. Roughly speaking, the higher the number of vehicles within a particular link the lower the green times of the links that lead into it are set. It is important to notice, as seen in all the simulations, that the regulator has a reactive rather than anticipatory behaviour where it responds indirectly to unknown disturbances, and therefore, it cannot make use of predictions of the future traffic conditions. 
+Our simulations lead us to conclude that the control matrix L derived in the TUC strategy provides a control law with a robust gating feature to protect down-stream links from oversaturation. Roughly speaking, the higher the number of vehicles within a particular link the lower the green times of the links that lead into it are set. This is certainly an improvement over non-dynamic systems; even though the TUC strategy itself is not fully optimal by design. We further note, as seen in all the simulations, that the regulator has a reactive rather than anticipatory behaviour where it responds indirectly to unknown disturbances, and therefore, it cannot make use of predictions of the future traffic conditions. Further improvements to the TUC strategy could attempt to build in traffic forecasts into the cost function.
  \clearpage
 
 \begin{thebibliography}{9}

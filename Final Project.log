@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.3.13)  31 MAR 2019 14:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.3.13)  31 MAR 2019 18:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -217,97 +217,96 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 {/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
 
-Underfull \hbox (badness 10000) in paragraph at lines 144--146
+Underfull \hbox (badness 10000) in paragraph at lines 141--143
 
  []
 
 [4]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 172.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 180.
 
  (/usr/local/texlive/2018/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 172.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 180.
 <network-graph.jpg, id=28, 455.301pt x 115.3035pt>
 File: network-graph.jpg Graphic file (type jpg)
 <use network-graph.jpg>
-Package pdftex.def Info: network-graph.jpg  used on input line 181.
+Package pdftex.def Info: network-graph.jpg  used on input line 189.
 (pdftex.def)             Requested size: 512.1496pt x 129.71434pt.
 
-Overfull \hbox (6.2596pt too wide) in paragraph at lines 181--182
+Overfull \hbox (6.2596pt too wide) in paragraph at lines 189--190
  [][] 
  []
 
-[5 <./network-graph.jpg>]
-<sim4.png, id=32, 620.3175pt x 295.1025pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[5]
+<sim4.png, id=33, 620.3175pt x 295.1025pt>
 File: sim4.png Graphic file (type png)
 <use sim4.png>
-Package pdftex.def Info: sim4.png  used on input line 192.
+Package pdftex.def Info: sim4.png  used on input line 200.
 (pdftex.def)             Requested size: 369.88582pt x 175.96414pt.
-<sim1.png, id=34, 620.3175pt x 295.1025pt>
+ [6 <./network-graph.jpg> <./sim4.png>]
+<sim1.png, id=39, 620.3175pt x 295.1025pt>
 File: sim1.png Graphic file (type png)
 <use sim1.png>
-Package pdftex.def Info: sim1.png  used on input line 204.
+Package pdftex.def Info: sim1.png  used on input line 213.
 (pdftex.def)             Requested size: 369.88582pt x 175.96414pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<sim8.png, id=35, 620.3175pt x 295.1025pt>
+<sim8.png, id=40, 620.3175pt x 295.1025pt>
 File: sim8.png Graphic file (type png)
 <use sim8.png>
-Package pdftex.def Info: sim8.png  used on input line 210.
+Package pdftex.def Info: sim8.png  used on input line 219.
 (pdftex.def)             Requested size: 369.88582pt x 175.96414pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[6 <./sim4.png>]
-<sim2.png, id=40, 620.3175pt x 295.1025pt>
+<sim2.png, id=41, 620.3175pt x 295.1025pt>
 File: sim2.png Graphic file (type png)
 <use sim2.png>
-Package pdftex.def Info: sim2.png  used on input line 223.
+Package pdftex.def Info: sim2.png  used on input line 232.
 (pdftex.def)             Requested size: 369.88582pt x 175.96414pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<sim7.png, id=41, 620.3175pt x 295.1025pt>
+<sim7.png, id=42, 620.3175pt x 295.1025pt>
 File: sim7.png Graphic file (type png)
 <use sim7.png>
-Package pdftex.def Info: sim7.png  used on input line 229.
-(pdftex.def)             Requested size: 369.88582pt x 175.96414pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<sim3.png, id=42, 620.3175pt x 295.1025pt>
-File: sim3.png Graphic file (type png)
-<use sim3.png>
-Package pdftex.def Info: sim3.png  used on input line 241.
-(pdftex.def)             Requested size: 369.88582pt x 175.96414pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<sim6.png, id=43, 620.3175pt x 295.1025pt>
-File: sim6.png Graphic file (type png)
-<use sim6.png>
-Package pdftex.def Info: sim6.png  used on input line 247.
+Package pdftex.def Info: sim7.png  used on input line 239.
 (pdftex.def)             Requested size: 369.88582pt x 175.96414pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [7 <./sim1.png> <./sim8.png>]
+<sim3.png, id=49, 620.3175pt x 295.1025pt>
+File: sim3.png Graphic file (type png)
+<use sim3.png>
+Package pdftex.def Info: sim3.png  used on input line 251.
+(pdftex.def)             Requested size: 369.88582pt x 175.96414pt.
 
-LaTeX Warning: Text page 8 contains only floats.
 
-[8 <./sim2.png> <./sim7.png> <./sim3.png>]
-<sim9.png, id=56, 620.3175pt x 282.05376pt>
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<sim6.png, id=50, 620.3175pt x 295.1025pt>
+File: sim6.png Graphic file (type png)
+<use sim6.png>
+Package pdftex.def Info: sim6.png  used on input line 257.
+(pdftex.def)             Requested size: 369.88582pt x 175.96414pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<sim9.png, id=51, 620.3175pt x 282.05376pt>
 File: sim9.png Graphic file (type png)
 <use sim9.png>
-Package pdftex.def Info: sim9.png  used on input line 259.
+Package pdftex.def Info: sim9.png  used on input line 269.
 (pdftex.def)             Requested size: 341.43306pt x 155.24623pt.
- [9 <./sim6.png> <./sim9.png>]
-[10
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[8 <./sim2.png> <./sim7.png>]
+Overfull \vbox (3.98802pt too high) has occurred while \output is active []
+
+
+[9 <./sim3.png> <./sim6.png> <./sim9.png>] [10] [11
 
 ] (./Final Project.aux) ) 
 Here is how much of TeX's memory you used:
@@ -329,14 +328,14 @@ s/cm/cmmi8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mr17.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
-8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10
-.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.p
-fb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pf
-b>
-Output written on "Final Project.pdf" (10 pages, 454678 bytes).
+6.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.p
+fb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pf
+b></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on "Final Project.pdf" (11 pages, 463270 bytes).
 PDF statistics:
- 111 PDF objects out of 1000 (max. 8388607)
- 67 compressed objects within 1 object stream
+ 118 PDF objects out of 1000 (max. 8388607)
+ 72 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  46 words of extra memory for PDF output out of 10000 (max. 10000000)
 
