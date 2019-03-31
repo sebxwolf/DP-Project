@@ -42,6 +42,7 @@ The solution the strategy provides is not globally optimal, because constraints 
 
 We simulate this strategy using a simple toy network of three junctions, connected by two main links, one of which is an 'upstream' link and one a 'downstream' link. The traffic flows only in one direction, from the upstream to the downstream link. We study how the strategy sets green times at the three junctions, and how it balances the benefit of allowing long green times to empty the upstream link with the resulting cost of potential downstream accumulation of cars. To gain a full understanding of the system dynamics, we vary parameters describing the infrastructure situation, such as road capacity, cycle time, saturation flow rates and turning rates and study the effect on the optimal green times chosen by the strategy.
 
+
 We find that the transport network under our specification has [EXPAND with results, short preview of conclusion]
 
 \section{DP formulation}
@@ -98,12 +99,15 @@ In vector notation:
 \begin{equation}
 \mathbf{x}(k+1)=\mathbf{A} \mathbf{x}(k)+\mathbf{B} \Delta \mathbf{g}(k)+\mathbf{T} \Delta \mathbf{d}(k)
 \end{equation}
+
 where $ \mathbf{x} $ is the state vector of the numbers of vehicles $ \mathbf{x}_z$ within links $z \in Z$ and $\Delta g_{j, i}=g_{j, i}-g_{j, i}^{\mathrm{N}}$ is a vector of deviations from steady-state green times and $\Delta d_{z}=d_{z}-d_{z}^{\mathrm{N}}$ is the deviation from the steady-state demand flows. $\mathbf{A}= \mathbf{I}$, $\mathbf{B}$ and  $\mathbf{T}$ are the state, input, and disturbance matrices, respectively. The input matrix B reflects the specific network topology, fixed staging, cycle, saturation flows, and turning rates. To solve the system we assume demand is in its steady-state: $\Delta \mathrm{d}(k)=0$.
+
 \subsubsection*{Cost:}
 To achieve the goal of minimising traffic accumulation in all links in the network, the number of cars in any given link is penalised quadratically. This introduces an automatic trade-off between links, as reducing the number of cars in one link leads to a higher number of cars in another link. This trade-off ensures that traffic is evenly distributed and no bottlenecks are created. Furthermore, deviations from the level of steady state green times are penalized quadratically. This ensures the system returns to a sensible equilibrium steady-state when green times are changed in a given period.
 \begin{equation}
 \mathcal{J}=\frac{1}{2} \sum_{k=0}^{\infty}\left(\|\mathbf{x}(k)\|_{\mathbf{Q}}^{2}+\|\Delta \mathbf{g}(k)\|_{\mathbf{R}}^{2}\right)
 \end{equation}
+
 $\mathbf{Q}$ and $\mathbf{R}$ in the cost equation are non-negative definite, diagonal weighting matrices. Since the first term in (4), $\|\mathbf{x}(k)\|_{\mathbf{Q}}^{2}$ is responsible for minimisation and balancing of the relative occupancies of the network links, $\mathbf{Q}$ has its diagonal elements equal to the inverses of the storage capacities of the corresponding links. $\mathbf{R}$ influences the magnitude of the control reactions.  $\mathbf{R}=r\mathbf{I}$, where the choice of r is picked to ensure the best results for a given application network (i.e. simple trial-error procedure). Both matrices can be modified in case any particular link carries increased significance. The infinite sum in the cost equation (4) suggest an infinite time horizon, which is used in order to obtain a time-invariant feedback law according to LQ optimisation theory. 
 
 \subsubsection*{Solution of the DP Problem:}
@@ -121,10 +125,161 @@ K = Q+ A ^ { T } K A - \left( A ^ { T } K B \right) \left( R + B ^ { T } K B \ri
 The solution to this problem yields a stationary policy given by the control matrix $\mathbf{L}$:
 \begin{equation}
 \mathbf{L} = \left(B ^ { T } K B +R \right) ^ { - 1 } B ^ { T } K A % other notations use K and I m not sure if thats the same as our L :( 
+
 \end{equation}
 
 Putting it into DP framework that uses backwords induction, the optimal control solution at each time k is equivalent to:
 \begin{equation} 
+
+\Delta g _ { k } ^ { * } = - \left( B ^ { T } X _ { k } B + R \right) ^ { - 1 } \left( B ^ { T } X _ { k } A \right) x _ { k - 1 }
+\end{equation}
+
+Dropping the k's because of the infinite horizon assumption, the equation transforms to:
+
+\begin{equation} 
+\Delta g  ^ { * } = - \left( B ^ { T } X  B + R \right) ^ { - 1 } \left( B ^ { T } X  A \right) x _ { k - 1 }
+\end{equation}
+
+And can equivalently by written as:
+\begin{equation} 
+\mathbf { g } ( k ) = \mathbf { g } ^ { \mathrm { N } } - \mathbf { L } \mathbf { x } ( k )
+\end{equation}
+where $\Delta \mathbf {g } = \mathbf { g } ( k ) - \mathbf {g } ^ { \mathrm { N } }$.\\
+
+The optimasation of this network is not done yet. This is because the LQ problem presented above does not consider control constraints. Those, however, can be imposed after the solution to (9) is computed. Hence, this calls for another optimasation problem that is solved in real-time forfor each junction $j$ so as to specify feasible green times $G _ { j , i }$ that are closest in distance to the non-feasible regulator-based green times $g _ { j , i }$ resulting from (9).
+
+
+\begin{equation} \operatorname { min } { G _ { j , i } } \sum _ { i \in F _ { j } } \left( g _ { j , i } - G _ { j , i } \right) ^ { 2 }\end{equation} 
+subject to
+\begin{equation} 
+\sum _ { i \in F _ { j } } G _ { j , i } + \left| L _ { j } = C \right.
+\end{equation} 
+\begin{equation} 
+G _ { j , i } \in \left[ g _ { j , i , \min } , g _ { j , i , \max } \right] \forall i \in F _ { j }
+\end{equation} 
+
+\section{Simulations}
+To understand the workings of the TUC strategy, we apply it to a simple toy network of three junctions (depicted in Figure 1). The network consists in 3 junctions (O,M,N), two links (A,B) and 5 traffic lights that will be used to control the traffic flow.
+
+\begin{figure}
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=15cm]{network-graph}
+\end{figure}
+
+In this sections we will assess how the network reacts to a pertubation (increase of number of cars) in different network set ups with modified values in the following parameters:
+
+\begin{itemize}
+\item Turning rate from A to B ($t_{AB}$)
+\item Saturation in-flow in lateral roads ($S_{w2,A}$ and $S_{w3,A}$) 
+\item Traffic going out the network ($t_{0}$)
+\end{itemize}
+
+\subsection{Results}
+
+The results will be presented in two types of figures: on the left, we see the evolution of the number of cars in the link at each period as a consequence of a perturbation. Note that this perturbation is an increase of the nominal number of cars already flowing through the network. 
+On the right we see the green times of the different signals evolving over the periods as a consequence of the optimal control imposed to the network. Therefore, the traffic lights react to the number of cars that are stopped in the link.
+
+\subsubsection{Turning rate AB}
+
+Modifying the turning rate AB is equivalent to change the percentage of cars that instead of flowing through link A to link B, they turn right and exit the network.
+
+Note that the higher the turning rate, the higher is the number of cars of in link A waiting to pass to B. That is exemplified in FIGURES 1, 2 and 3 where the link gets saturated and it only recovers the normal flow once link B is free.
+
+\begin{figure}
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=15cm]{sim1}
+\end{figure}
+
+\begin{figure}
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=15cm]{sim4}
+\end{figure}
+
+\begin{figure}
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=15cm]{sim8}
+\end{figure}
+
+\subsubsection{Saturation in-flow}
+
+Modifying the saturation in-flow is equivalent to change the number of cars that get into the network from the lateral roads. In reality this can be achieved, for example, reducing lanes. 
+
+We can clearly see in FIGURES 3,4 and 5, that when the saturation coefficient goes beyond 50, both links are completely congested. The r.o.w times of the lateral roads increase until their feasible maximum in order to  allow as many as possible lateral in-flowing cars in .
+
+\begin{figure}
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=15cm]{sim2}
+\end{figure}
+
+\begin{figure}
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=15cm]{sim4}
+\end{figure}
+
+\begin{figure}
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=15cm]{sim7}
+\end{figure}
+
+\subsubsection{Out flowing traffic}
+
+In this subsection we assess what is the effect of letting more cars out the system from the lateral roads. Logically, the more cars leave the network, the emptier are the links.
+
+Note that if the total amount of cars leaving the system is less than 10% the network gets congested and, similarly to what we have seen in previous cases, the r.o.w times do not fluctuate.
+
+\begin{figure}
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=15cm]{sim4}
+\end{figure}
+
+\begin{figure}
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=15cm]{sim5}
+\end{figure}
+
+\begin{figure}
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=15cm]{sim6}
+\end{figure}
+
+\subsubsection{Comparison varying vs fixed r.o.w times}
+
+One may wonder if varying r.o.w time as a function of the link occupancy really improves network efficiency. To check that,  we compared the performance of the network applying a variable r.o.w time (TUC) and a fixed time policy. 
+
+As an illustration, in figure XXXXX we see the differences in number of cars for each period for both policies. In  effect, the TUC strategy is more efficient than setting the lights to a fixed time. Whereas time varying policy succeeds to empty the link A before the 100th period, the fixed policy struggles to empty it and after period 100 the link is still congested.
+Is has been found that, specifically for our network,  no matter the set up, the performance of the varying time policy is always better.
+
+\begin{figure}
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=15cm]{sim9}
+\end{figure}
+
+\section{Conclusions}
+
+As a conclusion, one can assume that the  control  matrix L provides  control law  with a gating feature so as to protect down-stream links from oversaturation. Roughly speaking, the higher the number of vehicles within a particular link the more the green times of the links that lead to it are decreased through the application of the control law.
+
+Also, it is important to notice, as seen in all the simulations, that the regulator has a reactive rather than anticipatory behaviour where it responds indirectly to unknown disturbances, and therefore, it does not need any predictions of the future traffic conditions.  
+
+SOMETHING ABOUT PERFORMANCE BETTER WITH VARYING TIMES?
+
+
+\begin{thebibliography}{9}
+\bibitem{diakaki1} 
+Christina Diakaki, Markos Papageorgiou, and Kostas Aboudolas.
+\textit{A multivariable regulator approach to traffic-responsive network-wide signal control.}
+Control Engineering Practice 10, 183-195, 2001.
+=======
 \Delta g _ { k } ^ { * } = - \left( B ^ { T } K _ { k } B + R \right) ^ { - 1 } \left( B ^ { T } K_ { k } A \right) x _ { k - 1 }
 \end{equation}
 
