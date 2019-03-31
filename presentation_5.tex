@@ -1,0 +1,357 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Traffic control]{Traffic signal control – a discrete-time linear quadratic DP formulation with infinite-horizon} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author{Monika, Jordi and Sebastian} % Your name
+\institute[BGSE] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+Barcelona Graduate School of Economics \\ % Your institution for the title page
+\medskip
+%\textit{john@smith.com} % Your email address
+}
+\date{\today} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+\begin{frame}
+\frametitle{Overview} % Table of contents slide, comment this block out to remove it
+\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+%------------------------------------------------
+\section{Model} % Sections can be created in order to organize your presentation into discrete blocks, all sections and subsections are automatically printed in the table of contents as an overview of the talk
+%------------------------------------------------
+
+\subsection{Motivation} % A subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
+\subsection{DP Setting} % A subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
+\subsection{Unconstrained LQ problem} % A subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
+\subsection{Constrained problem}
+
+\section{Simulation} % Sections can be created in order to organize your presentation into discrete blocks, all sections and subsections are automatically printed in the table of contents as an overview of the talk
+\subsection{Proposed network} % A subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
+\subsection{Results} % A subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
+
+\begin{frame}
+\frametitle{Motivation}
+\begin{itemize}
+\item Saturated road conditions call for a constant improvement in the traffic control
+\item Limitiations include:
+ \begin{itemize}
+\item Constantly increasing traffic
+\item Limited urban space
+\item Cost of building new transportation junctions
+\end{itemize}
+
+\item Traffic light control of existing infrustructe pays therefore a key role in the urban optimisation of traffic
+\item How can it be modelled? \textcolor{red}{BY DYNAMIC PROGRAMMING} techniques
+
+\end{itemize}
+
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Optimasation problem}
+The problem of traffic optimasation is two-stage:\medskip
+\begin{enumerate}
+\item Unconstrained LQ problem
+ \begin{itemize}
+     \item Concentrated on speficying the urban network, which is represented as a directed graph with links (approaches) and junctions
+	\item Bases on specification of that network - in-flow, out-flow, links, junctions, traffic
+     \item Riccati equations deliver a direct solution
+   \end{itemize}\bigskip
+\item Constrained problem
+\begin{itemize}
+\item LQ-methodology used in the first step disregards the control constraints
+\item Those constraints are imposed and solved in real-time for each junction so as to specify feasible green times
+\item With the newly set constraint, the aim is to reach for the optimum obtained in the unconstrained problem
+\end{itemize}
+\end{enumerate}
+
+\end{frame}
+\begin{frame}
+\frametitle{LQ model - Dynamics}
+\begin{equation}
+x_{z}(k+1)=x_{z}(k)+T\left[q_{z}(k)-s_{z}(k)+d_{z}(k)-u_{z}(k)\right]
+\end{equation}
+
+%\begin{equation}
+%\begin{split}
+%x_{z}(k+1) & =x_{z}(k)\\
+%&+T\left[\left(1-t_{z, 0}\right) \sum_{w \in I_{M}} \frac{t_{w, z} S_{w}\left(\sum_{i \in v_{w}} \Delta g_{M, i}(k)\right)}{C} +\Delta d_{z}(k)-\frac{S_{z}\left(\sum_{i \in v_{z}} \Delta g_{N, i}(k)\right)}{C} \right]
+%\%end{split}
+%\%end{equation}
+Using traffic control variables:\\
+\begin{equation}
+\hspace*{-8cm}
+x_{z}(k+1) =x_{z}(k) +
+\end{equation}
+$+T\left[\left(1-t_{z, 0}\right) \sum_{w \in I_{M}} \frac{t_{w, z} S_{w}\left(\sum_{i \in v_{w}} \Delta g_{M, i}(k)\right)}{C} +\Delta d_{z}(k)-\frac{S_{z}\left(\sum_{i \in v_{z}} \Delta g_{N, i}(k)\right)}{C} \right]$\bigskip
+
+Finally in matrix notation: 
+\begin{equation}
+\mathbf{x}(k+1)=\mathbf{A} \mathbf{x}(k)+\mathbf{B} \Delta \mathbf{g}(k)+\mathbf{T} \Delta \mathbf{d}(k)
+\end{equation}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{LQ model - Cost}
+\begin{equation}
+\mathcal{J}=\frac{1}{2} \sum_{k=0}^{\infty}\left(\|\mathbf{x}(k)\|_{\mathbf{Q}}^{2}+\|\Delta \mathbf{g}(k)\|_{\mathbf{R}}^{2}\right)
+\end{equation}
+Here $\mathbf{Q}$ and $\mathbf{R}$ are non-negative definite, diagonal weighting matrices
+\end{frame}
+
+
+\begin{frame}
+\frametitle{LQ model - Solution}
+The discrete-time dynamic Riccati equation of this problem:
+\begin{equation}
+X = Q+ A ^ { T } X A - \left( A ^ { T } X B \right) \left( R + B ^ { T } X B \right) ^ { - 1 } \left( B ^ { T } X A \right)
+\end{equation}
+
+Solution to this problem is therefore given by a matrix (called the control) $\mathbf{L}$:
+\begin{equation}
+\mathbf{L} = \left(B ^ { T } X B +R \right) ^ { - 1 } B ^ { T } X A % other notations use K and I m not sure if thats the same as our L :( 
+\end{equation}
+
+Putting it into DP framework:
+\begin{equation} 
+\Delta g  ^ { * } = - \left( B ^ { T } X  B + R \right) ^ { - 1 } \left( B ^ { T } X  A \right) x _ { k - 1 }
+\end{equation}
+
+And can equivalently by written as:
+\begin{equation} 
+\mathbf { g } ( k ) = \mathbf { g } ^ { \mathrm { N } } - \mathbf { L } \mathbf { x } ( k )
+\end{equation}
+where $\Delta \mathbf {g } = \mathbf { g } ( k ) - \mathbf {g } ^ { \mathrm { N } }$.\\
+\end{frame}
+\begin{frame}
+\frametitle{Constrained problem}
+\begin{equation} \operatorname { min } { G _ { j , i } } \sum _ { i \in F _ { j } } \left( g _ { j , i } - G _ { j , i } \right) ^ { 2 }\end{equation} 
+subject to
+\begin{equation} 
+\sum _ { i \in F _ { j } } G _ { j , i } + \left| L _ { j } = C \right.
+\end{equation} 
+\begin{equation} 
+G _ { j , i } \in \left[ g _ { j , i , \min } , g _ { j , i , \max } \right] \forall i \in F _ { j }
+\end{equation} 
+
+\end{frame}
+
+
+\begin{frame}
+
+\frametitle{Simulation - Network}
+\begin{figure}[h!]
+    \caption{Network Graph}
+      \centering
+	\includegraphics[width=12 cm]{network-graph}
+\end{figure}
+Simulated toy network of three junctions (O,M,N) with two connecting links (A,B) and 5 traffic lights
+\end{frame}
+
+\begin{frame}
+\frametitle{Results - Base scenario}
+\begin{enumerate} \small
+\item  Initially, the green times are all set to 50 seconds, all links are empty
+\item 50\% of cars in link A turn to link B
+\item The saturation flow for lateral link is 40
+\item 30\% of cars reach their destination at every link i.e. exit the network
+\item Perturbation persists until period 50
+ \end{enumerate}
+
+\begin{figure}[h!]
+          \centering
+	\includegraphics[width=8 cm]{sim4}
+\end{figure}
+\small
+ \textcolor{red}{Both links become saturated quickly, and remain so until the perturbations subside. Link A remains saturated for
+longer.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Results - changing turning rate}
+\small
+Increasing \textbf{the turning rate} from A to B is equivalent to increasing the percentage of cars that flow from link A to link B. 
+\begin{figure}[h!]
+          \centering
+		\rotatebox{90}{\centering\scriptsize\textcolor{blue}{ Low turning rate:}}
+%\caption{Low turning rate}
+	\includegraphics[width=5.8 cm]{sim1}
+\end{figure}
+\begin{figure}[h!]
+          \centering
+%\caption{High turning rate}
+\rotatebox{90}{ \centering\scriptsize\textcolor{blue}{High turning rate:}}
+	\includegraphics[width=5.8 cm]{sim8}
+\end{figure}
+\textcolor{red}{Clearly,  the lower the turning rate, the lower the number of cars in link A waiting to pass to B.}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Results - changing saturation inflow}
+\small
+Modifying \textbf{the saturation flow} is equivalent to changing the number of cars that enter the network from the lateral roads.
+
+\begin{figure}[h!]
+          \centering
+		\rotatebox{90}{\centering\scriptsize\textcolor{blue}{Low saturation flow:}}
+	\includegraphics[width=5.8 cm]{sim2}
+\end{figure}
+\begin{figure}[h!]
+          \centering
+\rotatebox{90}{ \centering\scriptsize\textcolor{blue}{High saturation flow:}}
+	\includegraphics[width=5.8 cm]{sim7}
+\end{figure}
+\textcolor{red}{When the saturation coefficient goes beyond 50, both links congest. The r.o.w times of the lateral roads increase until their feasible maximum.}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Results - changing outflowing traffic}
+\small
+Modifying \textbf{the outflowing traffic} to assess the effect of letting more cars out the system from the lateral roads.
+
+\begin{figure}[h!]
+          \centering
+		\rotatebox{90}{\centering\scriptsize\textcolor{blue}{Low outflow:}}
+	\includegraphics[width=5.8 cm]{sim3}
+\end{figure}
+\begin{figure}[h!]
+          \centering
+\rotatebox{90}{ \centering\scriptsize\textcolor{blue}{High outflow:}}
+	\includegraphics[width=5.8 cm]{sim6}
+\end{figure}
+\textcolor{red}{When the total amount of cars leaving the system is less than 10\% the network gets congested and the r.o.w times do not fluctuate.}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Results - comparison varying vs fixed r.o.w times}
+\small
+One may wonder if varying r.o.w time as a function of the link occupancy really improves network efficiency.
+
+\begin{figure}[h!]
+     \caption{Variable vs. fixed green times}
+      \centering
+	\includegraphics[width=8cm]{sim9}
+\end{figure}
+
+
+\textcolor{red}{The differences in number of cars for each period for both policies are apparent. The TUC strategy is more efficient than setting the lights to a fixed time. Time varying policy empties the link A before the 100th period. Fixed policy struggles to do so.}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusions}
+\begin{enumerate} 
+\item  The control matrix L derived in the TUC strategy provides a control law with a robust gating feature to protect down-stream links from oversaturation. 
+\item The higher the number of vehicles within a particular link the lower the green times of the links that lead into it are set.
+\item The regulator has a reactive rather than anticipatory behaviour, no forecast is taken into account
+\item The time-varing policy improves network efficiency, whereas fixed-time policy struggles to empty the link.
+
+ \end{enumerate}
+
+
+\end{frame}
+
+
+\end{document} 
